@@ -1,6 +1,9 @@
 .*/
 .*
 *.iml
+*.zip
+target/
+docs/
 
 #Except for .gitignore
 !.gitignore
