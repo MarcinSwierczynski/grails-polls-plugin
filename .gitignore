@@ -1,0 +1,6 @@
+.*/
+.*
+*.iml
+
+#Except for .gitignore
+!.gitignore
