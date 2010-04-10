@@ -5,5 +5,8 @@
 target/
 docs/
 
+plugin.xml
+
+
 #Except for .gitignore
 !.gitignore
