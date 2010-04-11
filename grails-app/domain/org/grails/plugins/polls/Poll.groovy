@@ -1,5 +1,7 @@
 package org.grails.plugins.polls
 
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+
 class Poll {
 
     static hasMany = [answers: Answer]
@@ -26,6 +28,14 @@ class Poll {
     }
 
     static mapping = {
+        def config = ConfigurationHolder.config
+        if(config.grails.polls.poll.table) {
+            table config.grails.polls.poll.table.toString()
+        }
+        else {
+            table "polls"
+        }
+
         question type: 'text'
     }
 }
