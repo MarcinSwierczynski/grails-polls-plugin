@@ -4,6 +4,7 @@
 *.zip
 target/
 docs/
+out/
 
 plugin.xml
 
