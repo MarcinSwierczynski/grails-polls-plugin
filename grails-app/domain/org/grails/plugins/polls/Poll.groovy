@@ -5,24 +5,24 @@ class Poll {
     static hasMany = [answers: Answer]
 
     String question
-    Date start
-    Date end
+    Date startDate
+    Date endDate
     Date dateCreated
     boolean active = true
 
     static constraints = {
         question(blank: false)
-        start(nullable: false,
+        startDate(nullable: false,
             validator: {val, obj ->
-                if (!obj?.end)
+                if (!obj?.endDate)
                     return true
-                if (val?.compareTo(obj.end) > 0) {
+                if (val?.compareTo(obj.endDate) > 0) {
                     //start have to be before end
                     return false
                 }
             }
         )
-        end(nullable: true)
+        endDate(nullable: true)
     }
 
     static mapping = {
