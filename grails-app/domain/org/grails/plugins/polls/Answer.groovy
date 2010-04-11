@@ -2,7 +2,7 @@ package org.grails.plugins.polls
 
 class Answer {
 
-    static belongsTo = Poll
+    static belongsTo = [poll : Poll]
 
     String content
     int votes = 0
