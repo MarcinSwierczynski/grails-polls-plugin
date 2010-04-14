@@ -40,9 +40,11 @@ class Poll {
 		}
 
 		question type: 'text'
+
+		answers fetch:"join";
 	}
 
 	def addAnswers(List<Answer> answers) {
-		answers.each {answer -> this.addToAnswers(answer)}
+		answers.each {answer -> this.addToAnswers(answer)};
 	}
 }

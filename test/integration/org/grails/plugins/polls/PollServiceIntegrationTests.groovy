@@ -37,7 +37,8 @@ class PollServiceIntegrationTests extends GroovyTestCase {
 
 		assertNotNull(latestPoll);
 		assertTrue(latestPoll.active);
-		assertEquals(secondPoll.question, latestPoll.question); 
+		assertEquals(secondPoll.question, latestPoll.question);
+		assertEquals(secondPoll.answers[0].content, latestPoll.answers[0].content);
 	}
 
 	private Poll createAndRetrievePoll(String question, List<String> answers) {
