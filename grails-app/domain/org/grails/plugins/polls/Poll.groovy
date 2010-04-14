@@ -4,6 +4,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class Poll {
 
+	List answers;
 	static hasMany = [answers: Answer]
 
 	String question
@@ -13,14 +14,18 @@ class Poll {
 	boolean active = true
 
 	static constraints = {
-		question(blank: false)
+		question(blank: false, unique: true)
 		startDate(nullable: false)
 		endDate(nullable: true,
 				  validator: {val, obj ->
+					  if(val == null) {
+						  return true
+					  }
 					  if (val?.compareTo(obj.startDate) < 0) {
 						  //start have to be before end
 						  return false
 					  }
+					  return true;
 				  }
 		)
 	}
@@ -35,5 +40,9 @@ class Poll {
 		}
 
 		question type: 'text'
+	}
+
+	def addAnswers(List<Answer> answers) {
+		answers.each {answer -> this.addToAnswers(answer)}
 	}
 }

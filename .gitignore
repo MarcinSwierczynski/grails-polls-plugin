@@ -2,6 +2,7 @@
 .*
 *.iml
 *.zip
+*.log
 target/
 docs/
 out/
