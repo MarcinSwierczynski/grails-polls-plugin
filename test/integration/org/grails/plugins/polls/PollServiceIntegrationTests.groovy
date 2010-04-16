@@ -41,6 +41,15 @@ class PollServiceIntegrationTests extends GroovyTestCase {
 		assertEquals(secondPoll.answers[0].content, latestPoll.answers[0].content);
 	}
 
+	void testShouldRetrieveNoPoll() {
+		Poll poll = createAndRetrievePoll(question, answers);
+		poll.active = false;
+		poll.save();
+		
+		def latestPoll = pollService.getLatestPoll();
+		assertNull(latestPoll);
+	}
+
 	private Poll createAndRetrievePoll(String question, List<String> answers) {
 		pollService.createPoll(question, answers);
 		Poll poll = Poll.findByQuestion(question)
