@@ -47,4 +47,14 @@ class Poll {
 	def addAnswers(List<Answer> answers) {
 		answers.each {answer -> this.addToAnswers(answer)};
 	}
+
+	String formatAnswersAsTxt() {
+		def answersContent = answers.collect {it.content};
+		return answersContent.join("|");
+	}
+
+	String formatVotesAsTxt() {
+		def answersVote = answers.collect {it.votes}; 
+		return "t:" + answersVote.join(",");
+	}
 }

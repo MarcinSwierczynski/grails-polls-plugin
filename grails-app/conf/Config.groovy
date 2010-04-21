@@ -1,0 +1,1 @@
+org.grails.plugins.polls.google.charts.url = "http://chart.apis.google.com/chart?"
