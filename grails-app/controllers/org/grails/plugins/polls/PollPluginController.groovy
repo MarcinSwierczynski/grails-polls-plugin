@@ -12,7 +12,7 @@ class PollPluginController {
             return
         }
 
-        def resuslt = pollService.increaseVotes(answer)
+        def result = pollService.increaseVotes(answer)
         if (result) {
             chain action: 'results', params: [id: answer.poll.id]
         }
@@ -22,7 +22,7 @@ class PollPluginController {
     }
 
     def results = {
-        def poll = Poll.get(id)
+        def poll = Poll.get(params.id)
 
         if (!poll) {
             render template: 'error'
