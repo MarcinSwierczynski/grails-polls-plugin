@@ -2,7 +2,7 @@ package org.grails.plugins.polls
 
 import grails.test.*
 
-class PollPluginIntegrationTests extends GrailsUnitTestCase {
+class PollPluginControllerIntegrationTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

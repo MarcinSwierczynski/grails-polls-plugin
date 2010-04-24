@@ -44,17 +44,15 @@ class Poll {
         answers fetch:"join";
     }
 
-    def addAnswers(List<Answer> answers) {
-        answers.each {answer -> this.addToAnswers(answer)};
+    def addAnswers(List<Answer> givenAnswers) {
+        givenAnswers.each {this.addToAnswers(it)};
     }
 
-    String formatAnswersAsTxt() {
-        def answersContent = answers.collect {it.content};
-        return answersContent.join("|");
+    List getAnswers() {
+        return answers.collect {it.content};
     }
 
-    String formatVotesAsTxt() {
-        def answersVote = answers.collect {it.votes};
-        return "t:" + answersVote.join(",");
+    List getVotes() {
+        return answers.collect {it.votes};
     }
 }

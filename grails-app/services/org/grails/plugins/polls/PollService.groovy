@@ -7,6 +7,7 @@ class PollService {
 	def createPoll(Poll poll, List<Answer> answers) {
 		poll.addAnswers(answers);
 		poll.save();
+        def p = poll;
 	}
 
 	def createPoll(String question, List<String> answers) {

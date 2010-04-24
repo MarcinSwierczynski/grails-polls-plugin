@@ -5,7 +5,7 @@ class PollPluginController {
     def pollService
 
     def submit = {
-        def answer = Answer.get(params.Id)
+        def answer = Answer.get(params.id)
 
         if (!answer) {
             render template: 'error'
