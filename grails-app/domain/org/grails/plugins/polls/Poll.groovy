@@ -18,14 +18,7 @@ class Poll {
         startDate(nullable: false)
         endDate(nullable: true,
             validator: {val, obj ->
-                if(val == null) {
-                    return true
-                }
-                if (val?.compareTo(obj.startDate) < 0) {
-                    //start have to be before end
-                    return false
-                }
-                return true;
+                return val?.after(obj.startDate)
             }
         )
     }
