@@ -3,7 +3,7 @@ package org.grails.plugins.polls
 import grails.test.*
 import java.text.SimpleDateFormat
 
-class PollTests extends GrailsUnitTestCase {
+class PollIntegrationTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }
