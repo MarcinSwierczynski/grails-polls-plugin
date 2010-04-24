@@ -39,6 +39,5 @@ class PollIntegrationTests extends GrailsUnitTestCase {
 
         def badField = poll.errors.getFieldError('endDate')
         assertNotNull "I'm expecting to find an error on the endDate field", badField
-
     }
 }
