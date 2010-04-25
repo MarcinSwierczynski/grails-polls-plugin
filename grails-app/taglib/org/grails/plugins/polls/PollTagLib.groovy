@@ -19,10 +19,10 @@ class PollTagLib {
         def result = chart.pie3DChart {
             size(w:width, h:height);
             data(encoding:'text') {
-                dataSet(poll.getVotes());
+                dataSet(poll.answerVotes());
             }
             labels {
-                poll.getAnswers().each { label(it) }; 
+                poll.answerContents().each { label(it) };
             }
         };
 

@@ -5,7 +5,7 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 class Poll {
 
     List answers;
-    static hasMany = [answers: Answer]
+    static hasMany = [ answers : Answer ]
 
     String question
     Date startDate
@@ -37,15 +37,11 @@ class Poll {
         answers fetch:"join";
     }
 
-    def addAnswers(List<Answer> givenAnswers) {
-        givenAnswers.each {this.addToAnswers(it)};
+    public List answerContents() {
+        return this.answers.collect {it.content};
     }
 
-    List getAnswers() {
-        return answers.collect {it.content};
-    }
-
-    List getVotes() {
-        return answers.collect {it.votes};
+    public List answerVotes() {
+        return this.answers.collect {it.answerVotes};
     }
 }
