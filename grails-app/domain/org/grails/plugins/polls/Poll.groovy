@@ -42,6 +42,6 @@ class Poll {
     }
 
     public List answerVotes() {
-        return this.answers.collect {it.answerVotes};
+        return this.answers.collect {it.votes};
     }
 }
