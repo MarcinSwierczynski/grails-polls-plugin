@@ -5,7 +5,7 @@ class PollTagLib {
 
     PollService pollService;
 
-    def latestPollResults = { attrs ->
+    def pollResults = { attrs ->
         def type = attrs.type;
         int width = Integer.parseInt(attrs.width);
         int height = Integer.parseInt(attrs.height);

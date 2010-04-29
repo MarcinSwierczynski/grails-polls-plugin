@@ -7,6 +7,6 @@
 <html>
   <head><title>Example poll results</title></head>
   <body>
-  	<polls:latestPollResults type="p3" width="250" height="100" />
+  	<polls:pollResults type="p3" width="250" height="100" />
   </body>
 </html>
