@@ -31,6 +31,22 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         assertFalse(chartImgTag.contains('chd=t:10,10'));
     }
 
+    void testShouldGetPollByIdOrDefaultId() {
+        Poll p1 = createAndRetrievePoll('Question1', ['A11', 'A12']);        
+        Poll p2 = createAndRetrievePoll('Question2', ['A21', 'A22']);
+
+        String chartImgTag = pollTagLib.pollResults(id: p1.id, type: 'p3', width: '250', height: '100');
+        assertTrue(chartImgTag.contains('chl=A11|A12'));
+
+
+        chartImgTag = pollTagLib.pollResults(id: p2.id, type: 'p3', width: '250', height: '100');
+        assertTrue(chartImgTag.contains('chl=A21|A22'));
+
+
+        chartImgTag = pollTagLib.pollResults(type: 'p3', width: '250', height: '100');
+        assertTrue(chartImgTag.contains('chl=A21|A22'));
+    }
+
     private Poll increaseVotes(Poll poll, int votesCount) {
         poll.answers.each {it.votes += votesCount};
         poll.save();

@@ -6,10 +6,10 @@ class PollTagLib {
     PollService pollService;
 
     def pollResults = { attrs ->
+        def poll = attrs.id ? Poll.get(attrs.id) : pollService.getLatestPoll();
         def type = attrs.type;
         int width = Integer.parseInt(attrs.width);
         int height = Integer.parseInt(attrs.height);
-        def poll = pollService.getLatestPoll();
 
         def chart = new GoogleChartBuilder();
         //TODO use different chart types
