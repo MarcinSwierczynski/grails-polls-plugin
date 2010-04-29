@@ -47,6 +47,19 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         assertTrue(chartImgTag.contains('chl=A21|A22'));
     }
 
+    void testShouldDisplayBarChart() {
+        createAndRetrievePoll('Question1', ['A11', 'A12']);
+        String chartImgTag = pollTagLib.pollResults(type: 'bar', width: '250', height: '100');
+        assertTrue(chartImgTag.contains('cht=bvg'));
+    }
+
+    void testShouldChangeChartColor() {
+        createAndRetrievePoll('Question1', ['A11', 'A12']);
+        String chartImgTag = pollTagLib.pollResults(type: 'pie', width: '250', height: '100', colors: ['ff0000', '00ff00', '0000ff']);
+        assertTrue(chartImgTag.contains('cht=p'));
+        assertTrue(chartImgTag.contains('chco=ff0000,00ff00,0000ff'));
+    }
+
     private Poll increaseVotes(Poll poll, int votesCount) {
         poll.answers.each {it.votes += votesCount};
         poll.save();
