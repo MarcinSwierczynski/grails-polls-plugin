@@ -1,15 +1,16 @@
 package org.grails.plugins.polls
 
-//TODO Add scaling to bar typed charts
+//TODO Add labels to results
 class PollTagLib {
     static namespace = "polls";
 
     PollService pollService;
 
     private def chartParamsClosure;
+    def axisYLabels;
 
     /**
-     * available types: pie, pie3D, bar, line, lineXY, venn, scatter
+     * available types: pie, pie3D, bar, line, venn, scatter
      * colors -- list of colors hex values (without # prefix)
      */
     def pollResults = { attrs ->
@@ -18,6 +19,9 @@ class PollTagLib {
         int width = Integer.parseInt(attrs.width);
         int height = Integer.parseInt(attrs.height);
         def colorsList = attrs.colors;
+
+        int maxVotesValue = poll.answerVotes().max();
+        axisYLabels = ChartBuilderHelper.listUpToValueWithStep(maxVotesValue, 10);
 
         chartParamsClosure = {
             size(w:width, h:height);
@@ -32,6 +36,7 @@ class PollTagLib {
                     colorsList.each {color(it)}
                 }
             }
+            axis(left:axisYLabels);
         }
 
         String chartUrl = chartUrl(chartType);
@@ -48,6 +53,7 @@ class PollTagLib {
         } else {
             chartUrl = chart."$chartClosureName"(chartParamsClosure);
         }
+        chartUrl += ChartBuilderHelper.getAxisScalingString(0, axisYLabels.max());
         return chartUrl;
     }
 

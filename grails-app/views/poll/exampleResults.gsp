@@ -7,6 +7,6 @@
 <html>
   <head><title>Example poll results</title></head>
   <body>
-  	<polls:pollResults type="pie" width="250" height="100" colors="['ff0000', '00ff00', '0000ff']" />
+  	<polls:pollResults type="bar" width="250" height="100" colors="['ff0000', '00ff00', '0000ff']" />
   </body>
 </html>
