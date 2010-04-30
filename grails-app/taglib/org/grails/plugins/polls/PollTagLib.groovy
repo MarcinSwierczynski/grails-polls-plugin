@@ -7,7 +7,7 @@ class PollTagLib {
     PollService pollService;
 
     private def chartParamsClosure;
-    def axisYLabels;
+    private def axisYLabels;
 
     /**
      * available types: pie, pie3D, bar, line, venn, scatter
