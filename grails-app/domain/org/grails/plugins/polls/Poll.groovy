@@ -11,6 +11,7 @@ class Poll {
     Date startDate
     Date endDate
     Date dateCreated
+    boolean isMultiple = false;
     boolean active = true
 
     static constraints = {
