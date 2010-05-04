@@ -1,5 +1,7 @@
 package org.grails.plugins.polls
 
+import groovy.xml.MarkupBuilder
+
 class PollTagLib {
     static namespace = "polls";
 
@@ -61,5 +63,26 @@ class PollTagLib {
     def getChartImgTag(def chartUrl) {
         String imgTag = '<img src="' + chartUrl + '" />';
         return imgTag;
+    }
+
+    def poll = { attrs ->
+        def poll = attrs.id ? Poll.get(attrs.id) : pollService.getLatestPoll();
+
+        def writer = new StringWriter();
+        def htmlBuilder = new MarkupBuilder(writer);
+        htmlBuilder.setDoubleQuotes(true);
+
+        htmlBuilder.form('class':'poll', id: 'poll_'+poll.id) {
+            fieldset {
+                legend(poll.question)
+                poll.answers.each {answer ->
+                    input(type: poll.isMultiple ? 'checkbox' : 'radio', name: 'poll_'+poll.id, id: 'answer_'+answer.id, value: answer.id);
+                    label('for': 'answer_'+answer.id, answer.content);
+                }
+                //TODO submit button
+            }
+        }
+
+        out << writer.toString();
     }
 }

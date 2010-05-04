@@ -60,6 +60,23 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         assertTrue(chartImgTag.contains('chco=ff0000,00ff00,0000ff'));
     }
 
+    void testShouldDisplayPollForm() {
+        Poll p = createAndRetrievePoll('Question1', ['A11', 'A12']);
+        String pollFormAsHtml = pollTagLib.poll();
+
+        assertTrue pollFormAsHtml.startsWith('<form class="poll" id="poll_' + p.id + '">');
+        assertTrue pollFormAsHtml.contains('<legend>' + p.question + '</legend>');
+
+        p.answers.each {
+            assertTrue pollFormAsHtml.contains('<label for="answer_'+it.id+'">'+it.content+'</label>');
+            assertTrue pollFormAsHtml.contains('<input type="radio" name="poll_'+p.id+'" id="answer_'+it.id+'" value="'+it.id+'" />');
+        }
+
+        assertTrue pollFormAsHtml.endsWith('</form>');
+    }
+
+    //TODO more tests for poll form
+
     private Poll increaseVotes(Poll poll, int votesCount) {
         poll.answers.each {it.votes += votesCount};
         poll.save();

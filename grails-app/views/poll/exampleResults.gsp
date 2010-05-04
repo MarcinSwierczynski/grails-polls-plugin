@@ -5,8 +5,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
-  <head><title>Example poll results</title></head>
-  <body>
-  	<polls:pollResults type="pie3D" width="250" height="100" colors="['ff0000', '00ff00', '0000ff']" />
-  </body>
+<head><title>Example poll results</title></head>
+<body>
+<polls:poll/>
+<polls:pollResults type="pie3D" width="250" height="100" colors="['ff0000', '00ff00', '0000ff']"/>
+</body>
 </html>
