@@ -1,6 +1,5 @@
 package org.grails.plugins.polls
 
-//TODO Add labels to results
 class PollTagLib {
     static namespace = "polls";
 
@@ -54,6 +53,8 @@ class PollTagLib {
             chartUrl = chart."$chartClosureName"(chartParamsClosure);
         }
         chartUrl += ChartBuilderHelper.getAxisScalingString(0, axisYLabels.max());
+        chartUrl += ChartBuilderHelper.getBarChartLabelsString('000000');
+        chartUrl += ChartBuilderHelper.getBarsScalingString('a');
         return chartUrl;
     }
 

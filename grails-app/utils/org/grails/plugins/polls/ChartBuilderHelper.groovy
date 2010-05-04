@@ -20,4 +20,12 @@ class ChartBuilderHelper {
     public static String getAxisScalingString(int min, int max) {
         return '&amp;chds=' + min + ',' + max;
     }
+
+    public static String getBarChartLabelsString(String color) {
+        return '&amp;chm=N,' + color + ',0,-1,11';
+    }
+
+    public static String getBarsScalingString(String mode) {
+        return '&amp;chbh='+mode;
+    }
 }
