@@ -1,14 +1,18 @@
 package org.grails.plugins.polls
 
+import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
+
 /**
  * @author Marcin Świerczyński
  * Date: 2010-04-29 @ 12:42:20
  */
 class PollTagLibIntegrationTests extends GroovyTestCase {
     PollTagLib pollTagLib;
+    ApplicationTagLib g;
 
     protected void setUp() {
         pollTagLib = new PollTagLib();
+        g = new ApplicationTagLib();
     }
 
     void testShouldHasProperAnswersAndSize() {
@@ -64,7 +68,7 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         Poll p = createAndRetrievePoll('Question1', ['A11', 'A12']);
         String pollFormAsHtml = pollTagLib.poll();
 
-        assertTrue pollFormAsHtml.startsWith('<form class="poll" id="poll_' + p.id + '" action="">');
+        assertTrue pollFormAsHtml.startsWith('<form class="poll" id="poll_' + p.id + '" action="'+g.createLink(controller: 'pollPlugin', action: 'submit')+'" method="post">');
         assertTrue pollFormAsHtml.contains('<legend>' + p.question + '</legend>');
 
         p.answers.each {
@@ -83,7 +87,7 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
 
         String pollFormAsHtml = pollTagLib.poll();
         p.answers.each {
-            assertTrue pollFormAsHtml.contains('<input type="checkbox" name="poll_'+p.id+'" id="answer_'+it.id+'" value="'+it.id+'" />');
+            assertTrue pollFormAsHtml.contains('<input type="checkbox" name="id" id="answer_'+it.id+'" value="'+it.id+'" />');
         }
     }
 
