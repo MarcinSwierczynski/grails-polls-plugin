@@ -64,18 +64,28 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         Poll p = createAndRetrievePoll('Question1', ['A11', 'A12']);
         String pollFormAsHtml = pollTagLib.poll();
 
-        assertTrue pollFormAsHtml.startsWith('<form class="poll" id="poll_' + p.id + '">');
+        assertTrue pollFormAsHtml.startsWith('<form class="poll" id="poll_' + p.id + '" action="">');
         assertTrue pollFormAsHtml.contains('<legend>' + p.question + '</legend>');
 
         p.answers.each {
             assertTrue pollFormAsHtml.contains('<label for="answer_'+it.id+'">'+it.content+'</label>');
-            assertTrue pollFormAsHtml.contains('<input type="radio" name="poll_'+p.id+'" id="answer_'+it.id+'" value="'+it.id+'" />');
+            assertTrue pollFormAsHtml.contains('<input type="radio" name="id" id="answer_'+it.id+'" value="'+it.id+'" />');
         }
 
+        assertTrue pollFormAsHtml.contains('<input type="submit" value="Vote!" />');
         assertTrue pollFormAsHtml.endsWith('</form>');
     }
 
-    //TODO more tests for poll form
+    void testShouldUseCheckboxIfPollIsMultiple() {
+        Poll p = createAndRetrievePoll('Question1', ['A11', 'A12']);
+        p.isMultiple = true;
+        p.save();
+
+        String pollFormAsHtml = pollTagLib.poll();
+        p.answers.each {
+            assertTrue pollFormAsHtml.contains('<input type="checkbox" name="poll_'+p.id+'" id="answer_'+it.id+'" value="'+it.id+'" />');
+        }
+    }
 
     private Poll increaseVotes(Poll poll, int votesCount) {
         poll.answers.each {it.votes += votesCount};

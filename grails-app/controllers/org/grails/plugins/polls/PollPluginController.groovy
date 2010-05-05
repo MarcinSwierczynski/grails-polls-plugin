@@ -5,16 +5,17 @@ class PollPluginController {
     def pollService
 
     def submit = {
-        def answer = Answer.get(params.id)
+        def answerIds = params.id;
+        def answers = answerIds.collect { id -> Answer.get(id) }
 
-        if (!answer) {
+        if (!answers || answers.any {answer -> answer == null}) {
             render template: 'error'
             return
         }
 
-        def result = pollService.increaseVotes(answer)
-        if (result) {
-            chain action: 'results', params: [id: answer.poll.id]
+        List results = answers.collect { answer ->  pollService.increaseVotes(answer) } 
+        if (results && results.every {answer -> answer != null}) {
+            chain action: 'results', params: [id: answers.first().poll.id]
         }
         else {
             render template: 'error'
