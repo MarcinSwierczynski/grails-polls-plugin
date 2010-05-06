@@ -23,7 +23,7 @@ class PollService {
 	def getLatestPoll() {
 		def results = Poll.withCriteria {
 			eq("active", true);
-			order("id", "desc");
+			order("startDate", "desc");
 			maxResults(1);
 		}
 		return results[0];
