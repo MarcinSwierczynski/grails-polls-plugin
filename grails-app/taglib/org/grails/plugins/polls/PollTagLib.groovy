@@ -21,16 +21,16 @@ class PollTagLib {
         int height = Integer.parseInt(attrs.height);
         def colorsList = attrs.colors;
 
-        int maxVotesValue = poll.answerVotes().max();
+        int maxVotesValue = pollService.answerVotes(poll).max();
         axisYLabels = ChartBuilderHelper.listUpToValueWithStep(maxVotesValue, 10);
 
         chartParamsClosure = {
             size(w:width, h:height);
             data(encoding:'text') {
-                dataSet(poll.answerVotes());
+                dataSet(pollService.answerVotes(poll));
             }
             labels {
-                poll.answerContents().each { label(it) };
+                pollService.answerContents(poll).each { label(it) };
             }
             if(colorsList) {
                 colors {

@@ -28,4 +28,12 @@ class PollService {
 		}
 		return results[0];
 	}
+
+    def List answerContents(Poll poll) {
+        return poll.answers.collect {it.content};
+    }
+
+    def List answerVotes(Poll poll) {
+        return poll.answers.collect {it.votes};
+    }
 }

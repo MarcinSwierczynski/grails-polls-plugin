@@ -38,11 +38,4 @@ class Poll {
         answers fetch:"join";
     }
 
-    public List answerContents() {
-        return this.answers.collect {it.content};
-    }
-
-    public List answerVotes() {
-        return this.answers.collect {it.votes};
-    }
 }
