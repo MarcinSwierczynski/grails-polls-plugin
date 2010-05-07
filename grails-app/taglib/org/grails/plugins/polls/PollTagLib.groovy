@@ -72,8 +72,10 @@ class PollTagLib {
         def htmlBuilder = new MarkupBuilder(writer);
         htmlBuilder.setDoubleQuotes(true);
 
+        def formAction = g.createLink(controller: 'pollPlugin', action: 'submit')
         htmlBuilder.div('class':'poll', id: 'poll_'+poll.id) {
-            htmlBuilder.form(action: g.createLink(controller: 'pollPlugin', action: 'submit'), method: 'post') {
+            htmlBuilder.form(action: formAction, method: 'post',
+                onsubmit: 'new Ajax.Updater("poll_'+poll.id+'","'+formAction+'",{asynchronous:true,evalScripts:true,parameters:Form.serialize(this)});return false') {
                 fieldset {
                     legend(poll.question)
                     poll.answers.each {answer ->

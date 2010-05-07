@@ -1,0 +1,1 @@
+<polls:pollResults id="${poll.id}" type="pie3D" width="250" height="100" colors="['ff0000', '00ff00', '0000ff']"/>
