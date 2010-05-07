@@ -11,7 +11,29 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
         super.tearDown()
     }
 
-    void testSomething() {
+    void testShouldReturnErrorMessage() {
+        mockDomain(Answer);
 
+        this.controller.params.id = 1;
+
+        this.controller.submit();
+
+        assertEquals "error", this.controller.renderArgs.template
+    }
+
+    void testShouldReturnResults() {
+        def pollControl = mockFor(PollService);
+        pollControl.demand.increaseVotes(2..2) {answer -> answer.votes++; answer};
+        this.controller.pollService = pollControl.createMock();
+
+        def poll = new Poll(id: 1, question: "Some question?", startDate: new Date());
+        mockDomain(Answer, [new Answer(content: "A1", poll: poll), new Answer(content: "A2", poll: poll)]);
+
+        this.controller.params.id = [1,2];
+
+        this.controller.submit();
+
+        assertEquals "results", this.controller.chainArgs.action;
+        assertEquals poll.id, this.controller.chainArgs.params.id;
     }
 }

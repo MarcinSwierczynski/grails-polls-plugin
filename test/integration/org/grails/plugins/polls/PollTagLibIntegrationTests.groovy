@@ -68,8 +68,9 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         Poll p = createAndRetrievePoll('Question1', ['A11', 'A12']);
         String pollFormAsHtml = pollTagLib.poll();
 
+        def formAction = g.createLink(controller: 'pollPlugin', action: 'submit');
         assertTrue pollFormAsHtml.startsWith('<div class="poll" id="poll_' + p.id + '">');
-        assertTrue pollFormAsHtml.contains('<form action="'+g.createLink(controller: 'pollPlugin', action: 'submit')+'" method="post">');
+        assertTrue pollFormAsHtml.contains('<form action="'+formAction+'" method="post"');
         assertTrue pollFormAsHtml.contains('<legend>' + p.question + '</legend>');
 
         p.answers.each {
