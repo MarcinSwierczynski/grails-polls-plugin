@@ -72,15 +72,16 @@ class PollTagLib {
         def htmlBuilder = new MarkupBuilder(writer);
         htmlBuilder.setDoubleQuotes(true);
 
-        htmlBuilder.form('class':'poll', id: 'poll_'+poll.id,
-                        action: g.createLink(controller: 'pollPlugin', action: 'submit'), method: 'post') {
-            fieldset {
-                legend(poll.question)
-                poll.answers.each {answer ->
-                    input(type: poll.isMultiple ? 'checkbox' : 'radio', name: 'id', id: 'answer_'+answer.id, value: answer.id);
-                    label('for': 'answer_'+answer.id, answer.content);
+        htmlBuilder.div('class':'poll', id: 'poll_'+poll.id) {
+            htmlBuilder.form(action: g.createLink(controller: 'pollPlugin', action: 'submit'), method: 'post') {
+                fieldset {
+                    legend(poll.question)
+                    poll.answers.each {answer ->
+                        input(type: poll.isMultiple ? 'checkbox' : 'radio', name: 'id', id: 'answer_'+answer.id, value: answer.id);
+                        label('for': 'answer_'+answer.id, answer.content);
+                    }
+                    input(type: 'submit', value: 'Vote!');
                 }
-                input(type: 'submit', value: 'Vote!');
             }
         }
 

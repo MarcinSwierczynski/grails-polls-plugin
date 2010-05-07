@@ -68,7 +68,8 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         Poll p = createAndRetrievePoll('Question1', ['A11', 'A12']);
         String pollFormAsHtml = pollTagLib.poll();
 
-        assertTrue pollFormAsHtml.startsWith('<form class="poll" id="poll_' + p.id + '" action="'+g.createLink(controller: 'pollPlugin', action: 'submit')+'" method="post">');
+        assertTrue pollFormAsHtml.startsWith('<div class="poll" id="poll_' + p.id + '">');
+        assertTrue pollFormAsHtml.contains('<form action="'+g.createLink(controller: 'pollPlugin', action: 'submit')+'" method="post">');
         assertTrue pollFormAsHtml.contains('<legend>' + p.question + '</legend>');
 
         p.answers.each {
@@ -77,7 +78,7 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
         }
 
         assertTrue pollFormAsHtml.contains('<input type="submit" value="Vote!" />');
-        assertTrue pollFormAsHtml.endsWith('</form>');
+        assertTrue pollFormAsHtml.endsWith('</div>');
     }
 
     void testShouldUseCheckboxIfPollIsMultiple() {
