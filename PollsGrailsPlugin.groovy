@@ -7,7 +7,10 @@ class PollsGrailsPlugin {
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-            "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp",
+            "grails-app/controllers/org/grails/plugins/polls/PollController.groovy",
+            "grails-app/views/poll/",
+            "web-app/js/prototype/"
     ]
 
     // TODO Fill in these fields
