@@ -13,9 +13,11 @@ class PollPluginController {
             return
         }
 
+        def pollId = answers.first().poll.id;
+
         List results = answers.collect { answer ->  pollService.increaseVotes(answer) } 
         if (results && results.every {answer -> answer != null}) {
-            chain action: 'results', params: [id: answers.first().poll.id]
+            chain action: 'results', params: [id: pollId]
         }
         else {
             render template: 'error'
