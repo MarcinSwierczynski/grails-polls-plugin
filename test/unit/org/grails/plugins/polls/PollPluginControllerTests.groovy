@@ -1,10 +1,15 @@
 package org.grails.plugins.polls
 
-import grails.test.*
+import grails.test.ControllerUnitTestCase
 
 class PollPluginControllerTests extends ControllerUnitTestCase {
     protected void setUp() {
-        super.setUp()
+        super.setUp();
+
+        mockConfig('''
+            org.grails.plugins.polls.cookie.name = "grails.plugins.polls.voted"
+            org.grails.plugins.polls.cookie.validation.days = 7
+        ''');
     }
 
     protected void tearDown() {
@@ -36,4 +41,6 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
         assertEquals "results", this.controller.chainArgs.action;
         assertEquals poll.id, this.controller.chainArgs.params.id;
     }
+
+    //TODO: tests for cookies handling
 }

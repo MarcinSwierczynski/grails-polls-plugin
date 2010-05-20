@@ -10,9 +10,9 @@ class PollController {
 		pollService.createPoll("Is that cool?", ["Yes", "No", "Not sure"]);
 		Poll poll = pollService.getLatestPoll();
 
-		increaseVotesBy(poll.answers[0], 6);
-		increaseVotesBy(poll.answers[1], 5);
-		increaseVotesBy(poll.answers[2], 2);
+		increaseVotesBy(poll.answers[0], 1);
+		increaseVotesBy(poll.answers[1], 1);
+		increaseVotesBy(poll.answers[2], 1);
 	}
 
 	private void increaseVotesBy(def answer, int upTo) {
