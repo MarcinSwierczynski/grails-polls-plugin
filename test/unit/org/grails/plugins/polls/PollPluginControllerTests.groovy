@@ -1,6 +1,7 @@
 package org.grails.plugins.polls
 
 import grails.test.ControllerUnitTestCase
+import javax.servlet.http.Cookie
 
 class PollPluginControllerTests extends ControllerUnitTestCase {
     protected void setUp() {
@@ -27,12 +28,9 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
     }
 
     void testShouldReturnResults() {
-        def pollControl = mockFor(PollService);
-        pollControl.demand.increaseVotes(2..2) {answer -> answer.votes++; answer};
-        this.controller.pollService = pollControl.createMock();
+        mockPollService();
 
-        def poll = new Poll(id: 1, question: "Some question?", startDate: new Date());
-        mockDomain(Answer, [new Answer(content: "A1", poll: poll), new Answer(content: "A2", poll: poll)]);
+        def poll = mockPollAndAnswers();
 
         this.controller.params.id = [1,2];
 
@@ -42,5 +40,61 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
         assertEquals poll.id, this.controller.chainArgs.params.id;
     }
 
-    //TODO: tests for cookies handling
+    void testShouldReturnErrorIfUserHasAlreadyVoted() {
+        Poll poll = mockPollAndAnswers();
+
+        this.controller.params.id = [1,2];
+
+        Cookie[] cookies = [new Cookie("grails.plugins.polls.voted", ",1")].toArray();
+        this.controller.request.setCookies(cookies);
+
+        this.controller.submit();
+
+        assertEquals "results", this.controller.chainArgs.action;
+        assertEquals poll.id, this.controller.chainArgs.params.id;
+    }
+
+    void testShouldVoteIfUserHasVotedInAnotherPoll() {
+        mockPollService();
+        Poll poll = mockPollAndAnswers();
+
+        this.controller.params.id = [1,2];
+
+        Cookie[] cookies = [new Cookie("grails.plugins.polls.voted", ",2")].toArray();
+        this.controller.request.setCookies(cookies);
+
+        this.controller.submit();
+
+        def newCookie = this.controller.response.cookies.find {it.name == "grails.plugins.polls.voted"}
+        assertEquals ",2,"+poll.id, newCookie.value;
+        assertEquals "results", this.controller.chainArgs.action;
+        assertEquals poll.id, this.controller.chainArgs.params.id;
+    }
+
+
+    void testShouldVoteIfUserHasNotVoted() {
+        mockPollService();
+        Poll poll = mockPollAndAnswers();
+
+        this.controller.params.id = [1,2];
+
+        this.controller.submit();
+
+        def newCookie = this.controller.response.cookies.find {it.name == "grails.plugins.polls.voted"}
+        assertEquals ","+poll.id, newCookie.value;
+        assertEquals "results", this.controller.chainArgs.action;
+        assertEquals poll.id, this.controller.chainArgs.params.id;
+    }
+
+    private Poll mockPollAndAnswers() {
+        def poll = new Poll(id: 1, question: "Some question?", startDate: new Date());
+        mockDomain(Answer, [new Answer(content: "A1", poll: poll), new Answer(content: "A2", poll: poll)])
+        return poll
+    }
+
+    private def mockPollService() {
+        def pollControl = mockFor(PollService);
+        pollControl.demand.increaseVotes(2..2) {answer -> answer.votes++; answer};
+        this.controller.pollService = pollControl.createMock()
+    }
 }
