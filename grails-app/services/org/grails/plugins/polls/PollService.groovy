@@ -2,7 +2,7 @@ package org.grails.plugins.polls
 
 class PollService {
 
-//	boolean transactional = true
+	boolean transactional = true
 
 	def createPoll(Poll poll, List<Answer> answers) {
 		answers.each {poll.addToAnswers(it)}

@@ -4,6 +4,7 @@ import grails.test.ControllerUnitTestCase
 import javax.servlet.http.Cookie
 
 class PollPluginControllerTests extends ControllerUnitTestCase {
+
     protected void setUp() {
         super.setUp();
 
@@ -17,9 +18,15 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
         super.tearDown()
     }
 
-    void testShouldReturnErrorMessage() {
-        mockDomain(Answer);
+    void testShouldReturnErrorIfThereIsNoParams() {
+        this.controller.submit();
 
+        assertEquals "error", this.controller.renderArgs.template
+    }
+
+    void testShouldReturnErrorIfThereIsNoSuchAnswer() {
+        mockDomain(Answer);
+        
         this.controller.params.id = 1;
 
         this.controller.submit();
@@ -28,9 +35,7 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
     }
 
     void testShouldReturnResults() {
-        mockPollService();
-
-        def poll = mockPollAndAnswers();
+        Poll poll = doMocking();
 
         this.controller.params.id = [1,2];
 
@@ -40,8 +45,8 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
         assertEquals poll.id, this.controller.chainArgs.params.id;
     }
 
-    void testShouldReturnErrorIfUserHasAlreadyVoted() {
-        Poll poll = mockPollAndAnswers();
+    void testShouldRedirectToResultsIfUserHasAlreadyVoted() {
+        Poll poll = doMocking();
 
         this.controller.params.id = [1,2];
 
@@ -55,8 +60,7 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
     }
 
     void testShouldVoteIfUserHasVotedInAnotherPoll() {
-        mockPollService();
-        Poll poll = mockPollAndAnswers();
+        Poll poll = doMocking();
 
         this.controller.params.id = [1,2];
 
@@ -71,10 +75,8 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
         assertEquals poll.id, this.controller.chainArgs.params.id;
     }
 
-
     void testShouldVoteIfUserHasNotVoted() {
-        mockPollService();
-        Poll poll = mockPollAndAnswers();
+        Poll poll = doMocking();
 
         this.controller.params.id = [1,2];
 
@@ -86,6 +88,13 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
         assertEquals poll.id, this.controller.chainArgs.params.id;
     }
 
+    private Poll doMocking() {
+        mockPollService();
+        mockCheckerService();
+        def poll = mockPollAndAnswers();
+        return poll;
+    }
+
     private Poll mockPollAndAnswers() {
         def poll = new Poll(id: 1, question: "Some question?", startDate: new Date());
         mockDomain(Answer, [new Answer(content: "A1", poll: poll), new Answer(content: "A2", poll: poll)])
@@ -95,6 +104,10 @@ class PollPluginControllerTests extends ControllerUnitTestCase {
     private def mockPollService() {
         def pollControl = mockFor(PollService);
         pollControl.demand.increaseVotes(2..2) {answer -> answer.votes++; answer};
-        this.controller.pollService = pollControl.createMock()
+        this.controller.pollService = pollControl.createMock();
+    }
+
+    private def mockCheckerService() {
+        this.controller.cookieBasedCheckerService = new CookieBasedCheckerService();
     }
 }
