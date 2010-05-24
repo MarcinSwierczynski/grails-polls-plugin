@@ -17,14 +17,14 @@ class PollPluginController {
         def pollId = answers.first().poll.id;
         
         if (cookieBasedCheckerService.hasVoted(request, pollId)) {
-            chain action: 'results', params: [id: pollId]
+            chain action: 'results', params: [id: pollId, hasVoted: true]
             return;
         }
 
         List results = answers.collect { answer ->  pollService.increaseVotes(answer) }
         if (results && results.every {answer -> answer != null}) {
             cookieBasedCheckerService.markAsVoted(request, response, pollId);
-            chain action: 'results', params: [id: pollId];
+            chain action: 'results', params: [id: pollId, hasVoted: false];
         } else {
             render template: 'error'
         }
@@ -32,13 +32,14 @@ class PollPluginController {
 
     def results = {
         def poll = Poll.get(params.id)
+        boolean hasVoted = params.hasVoted ? new Boolean(params.hasVoted) : false;
 
         if (!poll) {
             render template: 'error'
             return;
         }
 
-        render template: 'results', model: [poll: poll]
+        render template: 'results', model: [poll: poll, hasVoted: hasVoted]
     }
 
 }
