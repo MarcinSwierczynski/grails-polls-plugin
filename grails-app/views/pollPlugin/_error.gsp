@@ -1,1 +1,1 @@
-Please select an option.
+<g:message code="poll.plugin.error" />

@@ -82,7 +82,7 @@ class PollTagLib {
                         input(type: poll.isMultiple ? 'checkbox' : 'radio', name: 'id', id: 'answer_'+answer.id, value: answer.id);
                         label('for': 'answer_'+answer.id, answer.content);
                     }
-                    input(type: 'submit', value: 'Vote!');
+                    input(type: 'submit', value: g.message(code: 'poll.plugin.vote.button'));
                 }
             }
         }
