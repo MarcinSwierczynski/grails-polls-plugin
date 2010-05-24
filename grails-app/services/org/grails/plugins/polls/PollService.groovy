@@ -1,5 +1,7 @@
 package org.grails.plugins.polls
 
+import org.hibernate.FetchMode
+
 class PollService {
 
 	boolean transactional = true
@@ -24,7 +26,6 @@ class PollService {
 		def results = Poll.withCriteria {
 			eq("active", true);
 			order("startDate", "desc");
-			maxResults(1);
 		}
 		return results[0];
 	}
