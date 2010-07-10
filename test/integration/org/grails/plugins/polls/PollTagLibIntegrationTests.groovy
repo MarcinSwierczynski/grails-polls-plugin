@@ -78,7 +78,8 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
             assertTrue pollFormAsHtml.contains('<input type="radio" name="id" id="answer_'+it.id+'" value="'+it.id+'" />');
         }
 
-        assertTrue pollFormAsHtml.contains('<input type="submit" value="Vote!" />');
+        def voteLabel = g.message(code: 'poll.plugin.vote.button');
+        assertTrue pollFormAsHtml.contains('<input type="submit" value="'+voteLabel+'" />');
         assertTrue pollFormAsHtml.endsWith('</div>');
     }
 
