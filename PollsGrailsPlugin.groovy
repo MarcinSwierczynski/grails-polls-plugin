@@ -14,8 +14,8 @@ class PollsGrailsPlugin {
     ]
 
     // TODO Fill in these fields
-    def author = "Your name"
-    def authorEmail = ""
+    def author = "Marcin Świerczyński"
+    def authorEmail = "marcin@swierczynski.net"
     def title = "Polls Grails Plugin"
     def description = '''\\
 Adds polls feature to your Grails-based application.
