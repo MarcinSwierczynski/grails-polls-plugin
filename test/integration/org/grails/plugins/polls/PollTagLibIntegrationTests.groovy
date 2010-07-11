@@ -9,6 +9,7 @@ import org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib
 class PollTagLibIntegrationTests extends GroovyTestCase {
     PollTagLib pollTagLib;
     ApplicationTagLib g;
+    def pollService;
 
     protected void setUp() {
         pollTagLib = new PollTagLib();
@@ -101,10 +102,9 @@ class PollTagLibIntegrationTests extends GroovyTestCase {
     }
 
     private Poll createAndRetrievePoll(String question, List<String> answers) {
-		Poll p = new Poll(question: question, startDate: new Date());
-        answers.each {p.addToAnswers(new Answer(content: it))};
-        p.save();
-        return p;
+		pollService.createPoll(question, answers);
+		Poll poll = Poll.findByQuestion(question);
+		return poll;
 	}
 
 }

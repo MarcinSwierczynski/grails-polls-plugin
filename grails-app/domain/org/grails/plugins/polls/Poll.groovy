@@ -38,4 +38,8 @@ class Poll {
         answers fetch:"join";
     }
 
+    String toString() {
+        return question + ', start date: ' + startDate;
+    }
+
 }
