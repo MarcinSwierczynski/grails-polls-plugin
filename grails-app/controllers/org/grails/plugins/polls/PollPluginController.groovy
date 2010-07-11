@@ -39,7 +39,7 @@ class PollPluginController {
             return;
         }
 
-        render template: 'results', model: [poll: poll, hasVoted: hasVoted]
+        render template: 'results', model: [poll: poll, hasVoted: hasVoted], plugin: 'polls'
     }
 
 }
