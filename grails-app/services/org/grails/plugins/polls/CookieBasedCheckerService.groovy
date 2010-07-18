@@ -25,7 +25,7 @@ class CookieBasedCheckerService {
         def cookie = request.cookies.find {it.name == cookieName};
 
         def oldCookieContent = cookie?.value ?: '';
-        def newCookieContent = oldCookieContent + ',' + pollId;
+        def newCookieContent = oldCookieContent != '' ? oldCookieContent + ',' + pollId : pollId;
         def newCookie = new Cookie(cookieName, newCookieContent);
         newCookie.maxAge = ConfigurationHolder.config.org.grails.plugins.polls.cookie.validation.days * 24 * 60 * 60;
         newCookie.path = '/';
